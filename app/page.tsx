@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 const backgroundThemes = [
   { id: 'default', name: 'Cloudy Gray', gradient: 'linear-gradient(135deg, #BDC3C7 0%, #2C3E50 100%)' },
@@ -17,6 +17,38 @@ export default function Home() {
   const [newTask, setNewTask] = useState("");
   const [activeTheme, setActiveTheme] = useState(backgroundThemes[0]);
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const savedTasks = localStorage.getItem("my-todo-tasks");
+    if (savedTasks) {
+      setTasks(JSON.parse(savedTasks));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("my-todo-tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  useEffect(() => {
+    const savedThemeId = localStorage.getItem("my-todo-theme");
+    if (savedThemeId) {
+      const foundTheme = backgroundThemes.find(t => t.id === savedThemeId);
+      if (foundTheme) {
+        setActiveTheme(foundTheme);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("my-todo-theme", activeTheme.id);
+  }, [activeTheme]);
+
+  if (!isMounted) return null;
 
   const addTask = () => {
     if (newTask.trim() !== "") {
