@@ -13,7 +13,7 @@ const backgroundThemes = [
 ]
 
 export default function Home() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<{text: string, completed: boolean}[]>([]);
   const [newTask, setNewTask] = useState("");
   const [activeTheme, setActiveTheme] = useState(backgroundThemes[0]);
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
