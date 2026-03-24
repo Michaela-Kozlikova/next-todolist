@@ -2,9 +2,21 @@
 
 import React, {useState} from "react";
 
+const backgroundThemes = [
+  { id: 'default', name: 'Cloudy Gray', gradient: 'linear-gradient(135deg, #BDC3C7 0%, #2C3E50 100%)' },
+  { id:'lime', name: 'Lime Sky', gradient: 'linear-gradient(135deg, #BFF098, #6FD6FF 100%)'},
+  { id: 'sunset', name: 'Peach Sunset', gradient: 'linear-gradient(135deg, #FF9A9E 0%, #FAD0C4 100%)' },
+  { id: 'lavender', name: 'Soft Lavender', gradient: 'linear-gradient(135deg, #E9E4F0 0%, #D391FA 100%)' },
+  { id: 'lenses', name: 'Rose Lenses', gradient: 'linear-gradient(135deg, #E8CBC0 0%, #636FA4 100%)' },
+  { id: 'lithium', name: 'Lithium', gradient: 'linear-gradient(135deg, #6D6027 0%, #D3CBB8 100%)' },
+  { id: 'ocean', name: 'Deep Ocean', gradient: 'linear-gradient(135deg, #243B55 0%, #141E30 100%)' }
+]
+
 export default function Home() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
+  const [activeTheme, setActiveTheme] = useState(backgroundThemes[0]);
+  const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
 
   const addTask = () => {
     if (newTask.trim() !== "") {
@@ -39,13 +51,40 @@ export default function Home() {
 
     return(
      <main className="min-h-screen flex flex-col items-center pt-12 pb-4 px-4 shadow-inner"
-          style={{background: 'linear-gradient(135deg, #BDC3C7 0%, #2C3E50 100%)',backgroundAttachment: 'fixed', fontFamily: "'Quicksand', sans-serif"}}>
+          style={{
+            backgroundImage: activeTheme.gradient,
+            backgroundAttachment: 'fixed', 
+            backgroundSize: 'cover',
+            fontFamily: "'Quicksand', sans-serif"}}>
+
+      <div className="fixed top-2 left-2 z-50 flex flex-col items-start gap-2">
+        <button onClick={() => setIsThemeMenuOpen(!isThemeMenuOpen)}
+                className="w-10 h-10 rounded-full backdrop-blur-md border border-white/20 shadow-lg flex items-center justify-center hover:scale-100 transition-all text-xl"
+                title="Change color">🎨</button>
+          {isThemeMenuOpen && ( 
+            <div className="flex flex-col gap-3 p-2 rounded-2xl backdrop-blur-md border border-white/20 animate-in fade-in slide-in-from-top-2 duration-300">
+              {backgroundThemes.map((theme) => (
+                <button 
+                      key={theme.id}
+                      onClick={() => { 
+                        setActiveTheme(theme); 
+                        setIsThemeMenuOpen(false);
+                      }}
+                      className={`w-6 h-6 rounded-full border-2 transition-all hover:scale-125 ${
+                        activeTheme.id === theme.id ? 'border-white scale-110 shadow-md': 'border-transparent opacity-80'
+                      }`}
+                      style={{ background: theme.gradient }}
+                    />
+                ))}
+            </div>
+          )}
+      </div>
 
       <div className="w-full max-w-2xl bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 shadow-2xl mx-4">
         <h1 className="text-4xl text-black/50 font-bold text-center p-2">Today's plans</h1>
         <form onSubmit={(e) => {
               e.preventDefault();
-              addTask;
+              addTask();
               }}
             className="flex justify-center mt-10 gap-4">
           
