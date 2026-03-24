@@ -82,7 +82,7 @@ export default function Home() {
   };
 
     return(
-     <main className="min-h-screen flex flex-col items-center pt-12 pb-4 px-4 shadow-inner"
+     <main className="min-h-screen flex flex-col items-center pt-8 sm:pt-12 px-2 sm:pb-4 px-4 shadow-inner"
           style={{
             backgroundImage: activeTheme.gradient,
             backgroundAttachment: 'fixed', 
@@ -93,6 +93,7 @@ export default function Home() {
         <button onClick={() => setIsThemeMenuOpen(!isThemeMenuOpen)}
                 className="w-10 h-10 rounded-full backdrop-blur-md border border-white/20 shadow-lg flex items-center justify-center hover:scale-100 transition-all text-xl"
                 title="Change color">🎨</button>
+
           {isThemeMenuOpen && ( 
             <div className="flex flex-col gap-3 p-2 rounded-2xl backdrop-blur-md border border-white/20 animate-in fade-in slide-in-from-top-2 duration-300">
               {backgroundThemes.map((theme) => (
@@ -112,23 +113,23 @@ export default function Home() {
           )}
       </div>
 
-      <div className="w-full max-w-2xl bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 shadow-2xl mx-4">
-        <h1 className="text-4xl text-black/50 font-bold text-center p-2">Today's plans</h1>
+      <div className="w-full max-w-[95%] sm:max-w-md md:max-w-2xl bg-white/10 backdrop-blur-md rounded-2xl  sm:rounded-3xl p-4 sm:p-8 border border-white/20 shadow-2xl mx-2">
+        <h1 className="text-3xl sm:text-4xl text-black/50 font-bold text-center p-2">Today's plans</h1>
         <form onSubmit={(e) => {
               e.preventDefault();
               addTask();
               }}
-            className="flex justify-center mt-10 gap-4">
+              className="flex justify-center mt-6 sm:mt-10 gap-3 sm:gap-4">
           
           <input 
             type="text" 
             placeholder="My plan is..."
-            className="p-2 font-bold bg-white rounded-lg border-2 w-64 focus:outline-none focus:ring-2 focus:ring[#1A5140]"
+            className="p-2 items-center sm:p-2 font-bold bg-white rounded-xl border-2 w-64 sm:w-80 focus:outline-none focus:ring-2 focus:ring[#1A5140]"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)} 
             />
             <button type="submit" onClick={addTask} 
-                  className="bg-green-400 hover:bg-green-200 rounded-lg px-6 text-white">&#10010;</button> 
+                  className="bg-green-400 hover:bg-green-200 active:scale-95 rounded-xl py-2 sm:py-2 px-6 text-white">&#10010;</button> 
         </form>
 
         <ul className="mt-10 flex flex-col items-center gap-2">
@@ -137,20 +138,20 @@ export default function Home() {
 
               <div className="flex gap-2">
                 <button onClick={() => moveTask(index, "up")} 
-                        className="text-xl bg-white hover:bg-white/50 px-4 rounded-lg"
+                        className="text-xl bg-white hover:bg-white/50 px-2 sm:px-4 rounded-lg"
                         disabled={index === 0}>&#9650;
                 </button>
                 
                 <button onClick={() => moveTask(index, "down")} 
-                        className="text-xl bg-white hover:bg-white/50 px-4 rounded-lg"
+                        className="text-xl bg-white hover:bg-white/50 px-2 sm:px-4 rounded-lg"
                         disabled={index === tasks.length - 1}>&#9660;
                 </button>
               </div>
 
               <span className={`p-2 rounded-lg flex-1 border border-white/10 ${task.completed ? "line-through decoration-2 bg-lime-200" : "bg-white"}`}>{task.text}</span>
-              <button onClick={() => toggleTask(index) } className={`rounded-lg px-4 transition ${task.completed ? "bg-white/20" : "bg-white hover:bg-lime-200"}`}>&#10004;</button>
+              <button onClick={() => toggleTask(index) } className={`rounded-lg px-3 transition sm:px-4 ${task.completed ? "bg-white/20" : "bg-white hover:bg-lime-200"}`}>&#10004;</button>
               
-              <button onClick={() => deleteTask(index)} className="bg-white hover:bg-red-200 rounded-lg px-4">&#10006;</button>
+              <button onClick={() => deleteTask(index)} className="bg-white hover:bg-red-200 rounded-lg px-3 sm:px-4">&#10006;</button>
             </li>
           ))}
         </ul>
